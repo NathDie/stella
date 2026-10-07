@@ -6,4 +6,6 @@ function required(name: string): string {
 
 export const config = {
     apiUrl: required('API_URL'),
+    monitoringChannelId: required('MONITORING_CHANNEL_ID'),
+    monitoringAlertUserId: required('MONITORING_ALERT_USER_ID'),
 };

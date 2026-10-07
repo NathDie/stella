@@ -1,4 +1,5 @@
 import { Events } from 'discord.js';
+import { startMonitoringReport } from '../tasks/monitoring-report.js';
 import type { BotEvent } from '../types.js';
 
 const event: BotEvent<Events.ClientReady> = {
@@ -9,6 +10,8 @@ const event: BotEvent<Events.ClientReady> = {
 
         const body = client.commands.map((c) => c.data.toJSON());
         await Promise.all(readyClient.guilds.cache.map((guild) => guild.commands.set(body)));
+
+        startMonitoringReport(client);
     },
 };
 

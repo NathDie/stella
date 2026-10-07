@@ -1,36 +1,21 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getMonitorings } from '../../services/monitoring.service.js';
+import { pingMonitorings } from '../../services/monitoring.service.js';
 import type { Command } from '../../types.js';
 
 const command: Command = {
     data: new SlashCommandBuilder()
         .setName('monitoring-ping')
-        .setDescription('Teste la disponibilité de tous les sites monitorés'),
+        .setDescription('Check the availability of all monitored sites'),
 
     async execute(interaction) {
         await interaction.deferReply();
 
         try {
-            const monitorings = await getMonitorings();
-
-            const lines = await Promise.all(
-                monitorings.map(async ({ name, link }) => {
-                    const start = performance.now();
-                    try {
-                        const response = await fetch(link, { signal: AbortSignal.timeout(10_000) });
-                        await response.body?.cancel();
-                        const ms = Math.round(performance.now() - start);
-                        return `${response.ok ? '🟢' : '🔴'} **${name}** — ${response.status} · ${ms} ms`;
-                    } catch {
-                        return `🔴 **${name}** — injoignable`;
-                    }
-                }),
-            );
-
-            await interaction.editReply(lines.join('\n') || 'Aucun monitoring enregistré.');
+            const { lines } = await pingMonitorings();
+            await interaction.editReply(lines.join('\n') || 'No monitoring data recorded.');
         } catch (error) {
             console.error(error);
-            await interaction.editReply('❌ Impossible de tester les monitorings.');
+            await interaction.editReply('❌ It is impossible to test the monitoring systems.');
         }
     },
 };
