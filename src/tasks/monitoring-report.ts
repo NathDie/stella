@@ -3,7 +3,7 @@ import { config } from '../config.js';
 import { pingMonitorings } from '../services/monitoring.service.js';
 import type { StellaClient } from '../types.js';
 
-const SCHEDULE = '0 8,20 * * *';
+const SCHEDULE = '0 10,18 * * *';
 const TIMEZONE = 'Europe/Paris';
 
 async function runReport(client: StellaClient): Promise<void> {
