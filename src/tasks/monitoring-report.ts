@@ -3,10 +3,11 @@ import { config } from '../config.js';
 import { pingMonitorings } from '../services/monitoring.service.js';
 import type { StellaClient } from '../types.js';
 
-const SCHEDULE = '0 10,18 * * *';
 const TIMEZONE = 'Europe/Paris';
+const FULL_REPORT_SCHEDULE = '0 10,14,18 * * *';
+const SILENT_CHECK_SCHEDULE = '0 0-9,11-13,15-17,19-23 * * *';
 
-async function runReport(client: StellaClient): Promise<void> {
+async function runReport(client: StellaClient, onlyIfDown: boolean): Promise<void> {
     const channel = await client.channels.fetch(config.monitoringChannelId);
     if (!channel?.isSendable()) {
         console.error('The monitoring channel cannot be found or is inaccessible.');
@@ -20,6 +21,7 @@ async function runReport(client: StellaClient): Promise<void> {
         const { lines, downCount } = await pingMonitorings();
 
         if (lines.length === 0) return;
+        if (onlyIfDown && downCount === 0) return;
 
         content =
             downCount > 0
@@ -37,7 +39,17 @@ async function runReport(client: StellaClient): Promise<void> {
 }
 
 export function startMonitoringReport(client: StellaClient): void {
-    cron.schedule(SCHEDULE, () => void runReport(client).catch(console.error), {
-        timezone: TIMEZONE,
-    });
+    const options = { timezone: TIMEZONE };
+
+    cron.schedule(
+        FULL_REPORT_SCHEDULE,
+        () => void runReport(client, false).catch(console.error),
+        options,
+    );
+
+    cron.schedule(
+        SILENT_CHECK_SCHEDULE,
+        () => void runReport(client, true).catch(console.error),
+        options,
+    );
 }
