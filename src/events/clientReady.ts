@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-import { startMonitoringReport } from '../tasks/monitoring-report.js';
+import { startMonitoringReport } from '../jobs/monitoring-report.js';
 import type { BotEvent } from '../types.js';
 
 const event: BotEvent<Events.ClientReady> = {
