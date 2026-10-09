@@ -38,3 +38,23 @@ export async function apiGet<T>(path: string): Promise<T> {
         }
     }
 }
+
+export async function apiPatch<T>(path: string, body: unknown): Promise<T> {
+    const response = await fetch(new URL(path, config.apiUrl), {
+        method: 'PATCH',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/merge-patch+json',
+            Authorization: `Bearer ${config.apiToken}`,
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(10_000),
+    });
+
+    if (!response.ok) {
+        const text = (await response.text()).slice(0, 500);
+        throw new ApiError(response.status, `${response.status} ${response.statusText} on ${path}`, text);
+    }
+
+    return (await response.json()) as T;
+}

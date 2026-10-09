@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import { config } from '../config.js';
 import { getTasks } from '../services/task.service.js';
 import type { StellaClient } from '../types.js';
-import { buildTasksEmbed, isDone, isOverdue } from '../utils/task-embed.js';
+import { buildTasksMessage, isDone, isOverdue } from '../utils/task-embed.js';
 
 const SCHEDULE = '0 9 * * *';
 const TIMEZONE = 'Europe/Paris';
@@ -17,14 +17,15 @@ async function runReport(client: StellaClient): Promise<void> {
     const mention = `<@${config.monitoringAlertUserId}>`;
 
     try {
-        const pending = (await getTasks()).filter((task) => !isDone(task));
+        const tasks = await getTasks();
+        const pending = tasks.filter((task) => !isDone(task));
         if (pending.length === 0) return;
 
         const overdueCount = pending.filter(isOverdue).length;
 
         await channel.send({
             content: overdueCount > 0 ? `${mention} 🚨 **${overdueCount} overdue task(s)**` : undefined,
-            embeds: [buildTasksEmbed(pending, `Pending tasks (${pending.length})`)],
+            ...buildTasksMessage(tasks, 'pending'),
             allowedMentions: { users: [config.monitoringAlertUserId] },
         });
     } catch (error) {

@@ -1,5 +1,7 @@
 import {
-    Client, Collection,
+    Client,
+    Collection,
+    type AutocompleteInteraction,
     type ChatInputCommandInteraction,
     type ClientEvents,
     type RESTPostAPIChatInputApplicationCommandsJSONBody,
@@ -8,6 +10,7 @@ import {
 export interface Command {
     data: { name: string; toJSON(): RESTPostAPIChatInputApplicationCommandsJSONBody };
     execute(interaction: ChatInputCommandInteraction): Promise<void>;
+    autocomplete?(interaction: AutocompleteInteraction): Promise<void>;
 }
 
 export interface BotEvent<K extends keyof ClientEvents = keyof ClientEvents> {

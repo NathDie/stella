@@ -1,4 +1,10 @@
-import { Colors, EmbedBuilder } from 'discord.js';
+import {
+    ActionRowBuilder,
+    Colors,
+    EmbedBuilder,
+    StringSelectMenuBuilder,
+    type BaseMessageOptions,
+} from 'discord.js';
 import type { Task } from '../models/task.js';
 
 const MAX_DESCRIPTION = 3900;
@@ -56,7 +62,7 @@ export function buildTasksEmbed(tasks: Task[], title?: string): EmbedBuilder {
     const embed = new EmbedBuilder()
         .setTitle(title ?? `Tasks (${doneCount}/${tasks.length} completed)`)
         .setColor(overdueCount > 0 ? Colors.Red : Colors.Blurple)
-        .setDescription(description);
+        .setDescription(description || 'No tasks to display.');
 
     if (shown < tasks.length) {
         embed.setFooter({ text: `… and ${tasks.length - shown} more` });
@@ -65,4 +71,50 @@ export function buildTasksEmbed(tasks: Task[], title?: string): EmbedBuilder {
     }
 
     return embed;
+}
+
+export const TASK_DONE_MENU_ID = 'task-done';
+
+export type TasksView = 'all' | 'pending';
+
+function buildTasksMenu(tasks: Task[], view: TasksView) {
+    const pending = sortTasks(tasks)
+        .filter((task) => !isDone(task))
+        .slice(0, 25);
+
+    if (pending.length === 0) return [];
+
+    const menu = new StringSelectMenuBuilder()
+        .setCustomId(`${TASK_DONE_MENU_ID}:${view}`)
+        .setPlaceholder('Mark a task as done…')
+        .addOptions(
+            pending.map((task) => ({
+                label: task.title.slice(0, 100),
+                value: task.id,
+                emoji: { name: PRIORITY_EMOJI[task.priority.toLowerCase()] ?? '⚪' },
+                ...(task.description
+                    ? { description: task.description.replace(/\s+/g, ' ').slice(0, 100) }
+                    : {}),
+            })),
+        );
+
+    return [new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(menu)];
+}
+
+export function buildTasksMessage(
+    tasks: Task[],
+    view: TasksView,
+): Pick<BaseMessageOptions, 'embeds' | 'components'> {
+    const pending = tasks.filter((task) => !isDone(task));
+    const displayed = view === 'pending' ? pending : tasks;
+
+    return {
+        embeds: [
+            buildTasksEmbed(
+                displayed,
+                view === 'pending' ? `Pending tasks (${pending.length})` : undefined,
+            ),
+        ],
+        components: buildTasksMenu(displayed, view),
+    };
 }

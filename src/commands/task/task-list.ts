@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { getTasks } from '../../services/task.service.js';
-import { buildTasksEmbed } from '../../utils/task-embed.js';
+import { buildTasksMessage } from '../../utils/task-embed.js';
 import type { Command } from '../../types.js';
 
 const command: Command = {
@@ -17,7 +17,7 @@ const command: Command = {
                 return;
             }
 
-            await interaction.editReply({ embeds: [buildTasksEmbed(tasks)] });
+            await interaction.editReply(buildTasksMessage(tasks, 'all'));
         } catch (error) {
             console.error(error);
             await interaction.editReply('❌ Unable to fetch tasks.');
