@@ -6,6 +6,7 @@ import {
     VoiceConnectionStatus,
 } from '@discordjs/voice';
 import { config } from '../config.js';
+import { startListening } from '../voice/recorder.js';
 import type { BotEvent } from '../types.js';
 
 const event: BotEvent<Events.VoiceStateUpdate> = {
@@ -34,6 +35,7 @@ const event: BotEvent<Events.VoiceStateUpdate> = {
             try {
                 await entersState(connection, VoiceConnectionStatus.Ready, 15_000);
                 console.log('🎙️ Stella joined the voice channel.');
+                startListening(connection);
             } catch (error) {
                 console.error('Unable to join the voice channel in time.', error);
                 connection.destroy();
