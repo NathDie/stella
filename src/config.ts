@@ -11,4 +11,6 @@ export const config = {
     taskChannelId: required('TASK_CHANNEL_ID'),
     reminderChannelId: required('REMINDER_CHANNEL_ID'),
     monitoringAlertUserId: required('MONITORING_ALERT_USER_ID'),
+    voiceChannelId: required('VOICE_CHANNEL_ID'),
+    ownerUserId: required('OWNER_USER_ID'),
 };

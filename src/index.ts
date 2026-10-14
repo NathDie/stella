@@ -3,7 +3,9 @@ import { join } from 'node:path';
 import { loadModules } from './loader.js';
 import { StellaClient, type BotEvent, type Command } from './types.js';
 
-const client = new StellaClient({ intents: [GatewayIntentBits.Guilds] });
+const client = new StellaClient({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
+});
 
 for (const command of await loadModules<Command>(join(import.meta.dirname, 'commands'))) {
     client.commands.set(command.data.name, command);
