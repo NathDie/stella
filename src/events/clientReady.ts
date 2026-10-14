@@ -1,6 +1,8 @@
 import { Events } from 'discord.js';
 import { startMonitoringReport } from '../jobs/monitoring-report.js';
 import type { BotEvent } from '../types.js';
+import {startTaskReport} from "../jobs/task-report.js";
+import {startReminderReport} from "../jobs/reminder-report.js";
 
 const event: BotEvent<Events.ClientReady> = {
     name: Events.ClientReady,
@@ -12,6 +14,8 @@ const event: BotEvent<Events.ClientReady> = {
         await Promise.all(readyClient.guilds.cache.map((guild) => guild.commands.set(body)));
 
         startMonitoringReport(client);
+        startTaskReport(client)
+        startReminderReport(client)
     },
 };
 

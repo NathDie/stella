@@ -9,5 +9,6 @@ export const config = {
     apiToken: required('API_TOKEN'),
     monitoringChannelId: required('MONITORING_CHANNEL_ID'),
     taskChannelId: required('TASK_CHANNEL_ID'),
+    reminderChannelId: required('REMINDER_CHANNEL_ID'),
     monitoringAlertUserId: required('MONITORING_ALERT_USER_ID'),
 };
