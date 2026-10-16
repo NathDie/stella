@@ -13,6 +13,7 @@ interface ApiClientOptions {
     name: string;
     baseUrl: string;
     token?: string;
+    queryParams?: Record<string, string>;
 }
 
 const RETRIES = 2;
@@ -22,7 +23,15 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 type Method = 'GET' | 'POST' | 'PATCH';
 
-export function createApiClient({ name, baseUrl, token }: ApiClientOptions) {
+export function createApiClient({ name, baseUrl, token, queryParams }: ApiClientOptions) {
+    function buildUrl(path: string): URL {
+        const url = new URL(path, baseUrl);
+        for (const [key, value] of Object.entries(queryParams ?? {})) {
+            url.searchParams.set(key, value);
+        }
+        return url;
+    }
+
     async function send<T>(method: Method, path: string, body?: unknown): Promise<T> {
         const headers: Record<string, string> = { Accept: 'application/json' };
         if (token) headers.Authorization = `Bearer ${token}`;
@@ -31,7 +40,7 @@ export function createApiClient({ name, baseUrl, token }: ApiClientOptions) {
                 method === 'PATCH' ? 'application/merge-patch+json' : 'application/json';
         }
 
-        const response = await fetch(new URL(path, baseUrl), {
+        const response = await fetch(buildUrl(path), {
             method,
             headers,
             body: body === undefined ? undefined : JSON.stringify(body),

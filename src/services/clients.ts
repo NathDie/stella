@@ -10,5 +10,5 @@ export const punkRecordsApi = createApiClient({
 export const strawboardApi = createApiClient({
     name: 'strawboard',
     baseUrl: config.apiUrlStrawboard,
-    token: config.apiTokenStrawboard,
+    queryParams: { token: config.apiTokenStrawboard },
 });
