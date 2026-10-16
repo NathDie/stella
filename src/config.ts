@@ -7,6 +7,8 @@ function required(name: string): string {
 export const config = {
     apiUrl: required('API_URL'),
     apiToken: required('API_TOKEN'),
+    apiUrlStrawboard: required('API_URL_STRAWBOARD'),
+    apiTokenStrawboard: required('API_TOKEN_STRAWBOARD'),
     monitoringChannelId: required('MONITORING_CHANNEL_ID'),
     taskChannelId: required('TASK_CHANNEL_ID'),
     reminderChannelId: required('REMINDER_CHANNEL_ID'),

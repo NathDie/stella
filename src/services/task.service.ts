@@ -1,12 +1,12 @@
-import {apiGet, apiPatch} from './api.js';
+import {punkRecordsApi} from "./clients.js";
 import {Task} from "../models/task.js";
 
 export function getTasks(): Promise<Task[]> {
-    return apiGet<Task[]>('/tasks/today');
+    return punkRecordsApi.get<Task[]>('/tasks/today');
 }
 
 export function completeTask(id: string): Promise<Task> {
-    return apiPatch<Task>(`/tasks/${id}`, {
+    return punkRecordsApi.patch<Task>(`/tasks/${id}`, {
         status: 'done',
         complete_at: new Date().toISOString(),
     });

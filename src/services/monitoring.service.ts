@@ -1,8 +1,8 @@
 import type { Monitoring } from '../models/monitoring.js';
-import { apiGet } from './api.js';
+import { punkRecordsApi } from './clients.js';
 
 export function getMonitorings(): Promise<Monitoring[]> {
-    return apiGet<Monitoring[]>('/monitorings');
+    return punkRecordsApi.get<Monitoring[]>('/monitorings');
 }
 
 export async function pingMonitorings(): Promise<{ lines: string[]; downCount: number }> {

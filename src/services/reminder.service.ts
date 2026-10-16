@@ -1,18 +1,18 @@
-import {apiGet, apiPost} from './api.js';
 import {Reminder} from "../models/reminder.js";
+import {punkRecordsApi} from "./clients.js";
 
 export function getTodayReminders(): Promise<Reminder[]> {
-    return apiGet<Reminder[]>('/reminders/today');
+    return punkRecordsApi.get<Reminder[]>('/reminders/today');
 }
 
 export function getUpcomingReminders(): Promise<Reminder[]> {
-    return apiGet<Reminder[]>('/reminders/upcoming');
+    return punkRecordsApi.get<Reminder[]>('/reminders/upcoming');
 }
 
 export function geOverdueReminders(): Promise<Reminder[]> {
-    return apiGet<Reminder[]>('/reminders/overdue');
+    return punkRecordsApi.get<Reminder[]>('/reminders/overdue');
 }
 
 export function processOverdueReminders(): Promise<unknown> {
-    return apiPost<unknown>('/reminders/process', {});
+    return punkRecordsApi.post<unknown>('/reminders/process', {});
 }
