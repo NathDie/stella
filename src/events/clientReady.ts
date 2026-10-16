@@ -3,6 +3,7 @@ import { startMonitoringReport } from '../jobs/monitoring-report.js';
 import type { BotEvent } from '../types.js';
 import {startTaskReport} from "../jobs/task-report.js";
 import {startReminderReport} from "../jobs/reminder-report.js";
+import {startConsultationReport} from "../jobs/consultation-report.js";
 
 const event: BotEvent<Events.ClientReady> = {
     name: Events.ClientReady,
@@ -16,6 +17,7 @@ const event: BotEvent<Events.ClientReady> = {
         startMonitoringReport(client);
         startTaskReport(client)
         startReminderReport(client)
+        startConsultationReport(client)
     },
 };
 

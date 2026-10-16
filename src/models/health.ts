@@ -14,3 +14,9 @@ export interface BloodPressureReading {
     diastolic: number
     pulse: number
 }
+
+export interface Consultation {
+    id: string
+    slug: string
+    date: string
+}

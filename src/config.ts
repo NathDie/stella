@@ -10,6 +10,7 @@ export const config = {
     apiUrlStrawboard: required('API_URL_STRAWBOARD'),
     apiTokenStrawboard: required('API_TOKEN_STRAWBOARD'),
     monitoringChannelId: required('MONITORING_CHANNEL_ID'),
+    strawboardChannelId: required('STRAWBOARD_CHANNEL_ID'),
     taskChannelId: required('TASK_CHANNEL_ID'),
     reminderChannelId: required('REMINDER_CHANNEL_ID'),
     monitoringAlertUserId: required('MONITORING_ALERT_USER_ID'),
