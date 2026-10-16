@@ -1,5 +1,5 @@
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
-import { getMonitorings } from '../../services/monitoring.service.js';
+import { getMonitorings } from '../../services/punk-records/monitoring.service.js';
 import type { Command } from '../../types.js';
 
 const MAX_DESCRIPTION = 3900;

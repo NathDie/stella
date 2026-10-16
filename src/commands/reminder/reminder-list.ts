@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import {getTodayReminders, processOverdueReminders} from '../../services/reminder.service.js';
+import {getTodayReminders, processOverdueReminders} from '../../services/punk-records/reminder.service.js';
 import { buildRemindersEmbed } from '../../utils/reminder-embed.js';
 import type { Command } from '../../types.js';
 

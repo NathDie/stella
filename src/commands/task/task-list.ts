@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getTasks } from '../../services/task.service.js';
+import { getTasks } from '../../services/punk-records/task.service.js';
 import { buildTasksMessage } from '../../utils/task-embed.js';
 import type { Command } from '../../types.js';
 

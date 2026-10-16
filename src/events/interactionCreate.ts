@@ -1,5 +1,5 @@
 import { Events, MessageFlags } from 'discord.js';
-import { completeTask, getTasks } from '../services/task.service.js';
+import { completeTask, getTasks } from '../services/punk-records/task.service.js';
 import { buildTasksMessage, TASK_DONE_MENU_ID } from '../utils/task-embed.js';
 import type { BotEvent } from '../types.js';
 

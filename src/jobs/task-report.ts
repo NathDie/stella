@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 import { config } from '../config.js';
-import { getTasks } from '../services/task.service.js';
+import { getTasks } from '../services/punk-records/task.service.js';
 import type { StellaClient } from '../types.js';
 import { buildTasksMessage, isDone, isOverdue } from '../utils/task-embed.js';
 

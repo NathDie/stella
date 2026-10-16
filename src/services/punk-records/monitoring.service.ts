@@ -1,5 +1,5 @@
-import type { Monitoring } from '../models/monitoring.js';
-import { punkRecordsApi } from './clients.js';
+import type { Monitoring } from '../../models/monitoring.js';
+import { punkRecordsApi } from '../clients.js';
 
 export function getMonitorings(): Promise<Monitoring[]> {
     return punkRecordsApi.get<Monitoring[]>('/monitorings');

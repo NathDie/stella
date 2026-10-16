@@ -1,5 +1,5 @@
-import {Reminder} from "../models/reminder.js";
-import {punkRecordsApi} from "./clients.js";
+import {Reminder} from "../../models/reminder.js";
+import {punkRecordsApi} from "../clients.js";
 
 export function getTodayReminders(): Promise<Reminder[]> {
     return punkRecordsApi.get<Reminder[]>('/reminders/today');

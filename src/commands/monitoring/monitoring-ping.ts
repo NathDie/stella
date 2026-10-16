@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { pingMonitorings } from '../../services/monitoring.service.js';
+import { pingMonitorings } from '../../services/punk-records/monitoring.service.js';
 import type { Command } from '../../types.js';
 
 const command: Command = {

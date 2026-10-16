@@ -1,5 +1,5 @@
-import {punkRecordsApi} from "./clients.js";
-import {Task} from "../models/task.js";
+import {punkRecordsApi} from "../clients.js";
+import {Task} from "../../models/task.js";
 
 export function getTasks(): Promise<Task[]> {
     return punkRecordsApi.get<Task[]>('/tasks/today');

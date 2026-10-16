@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 import { config } from '../config.js';
-import { pingMonitorings } from '../services/monitoring.service.js';
+import { pingMonitorings } from '../services/punk-records/monitoring.service.js';
 import type { StellaClient } from '../types.js';
 
 const TIMEZONE = 'Europe/Paris';

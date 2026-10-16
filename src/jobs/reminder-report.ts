@@ -5,7 +5,7 @@ import {
     getTodayReminders,
     geOverdueReminders,
     processOverdueReminders,
-} from '../services/reminder.service.js';
+} from '../services/punk-records/reminder.service.js';
 import type { Reminder } from '../models/reminder.js';
 import type { StellaClient } from '../types.js';
 import { buildRemindersEmbed } from '../utils/reminder-embed.js';
